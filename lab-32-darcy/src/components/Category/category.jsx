@@ -2,9 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {
-  update,
-  remove
-} from '../actions/actions.jsx';
+  categoryUpdate,
+  categoryRemove
+} from '../../actions/categoryAction.js';
 
 import CategoryForm from './categoryForm.jsx';
 
@@ -19,12 +19,12 @@ class Category extends React.Component {
 
   handleRemove(event, id) {
     event.preventDefault();
-    this.props.remove(this.props.id);
+    this.props.categoryRemove(this.props.id);
   }
 
   toggleUpdate() {
     event.preventDefault();
-    this.props.update({
+    this.props.categoryUpdate({
       name: this.props.name,
       budget: this.props.budget,
       id: this.props.id,
@@ -34,11 +34,11 @@ class Category extends React.Component {
 
   toggleUpdateOff() {
     event.preventDefault();
-    this.props.update({
-      isEditing: false,
+    this.props.categoryUpdate({
       name: this.props.name,
       budget: this.props.budget,
       id: this.props.id,
+      isEditing: false,
     });
 
   }
@@ -67,8 +67,8 @@ class Category extends React.Component {
 
 const mapDispatchToProps = (dispatch, getState) => {
   return {
-    update: (category) => dispatch(update(category)),
-    remove: (id) => dispatch(remove(id)),
+    categoryUpdate: (category) => dispatch(categoryUpdate(category)),
+    categoryRemove: (id) => dispatch(categoryRemove(id)),
   };
 };
 

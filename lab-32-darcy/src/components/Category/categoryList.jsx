@@ -4,8 +4,8 @@ import {connect} from 'react-redux';
 import Category from './category.jsx';
 
 import {
-  create,
-} from '../actions/actions.jsx';
+  categoryCreate,
+} from '../../actions/categoryAction.js';
 
 class CategoryList extends React.Component {
   constructor(props) {
@@ -42,7 +42,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, getState) => {
   return {
-    create: value => dispatch(create(value)),
+    categoryCreate: value => dispatch(categoryCreate(value)),
   };
 };
   

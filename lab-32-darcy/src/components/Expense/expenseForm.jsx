@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
-  create,
-  update,
-} from '../actions/actions.jsx';
+  expenseCreate,
+  expenseUpdate,
+} from '../../actions/expenseAction.js';
 
-class CategoryForm extends React.Component {
+class ExpenseForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +21,7 @@ class CategoryForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     if (this.props.mode === 'create') {
-      this.props.create(this.state);
+      this.props.expenseCreate(this.state);
       this.setState({
         name: '',
         budget: '',
@@ -32,7 +32,7 @@ class CategoryForm extends React.Component {
         name:this.state.name, 
         budget:this.state.budget, 
         id:this.props.id});
-      this.props.update(newValue);
+      this.props.expenseUpdate(newValue);
     }
   }
 
@@ -83,9 +83,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, getState) => {
   return {
-    create: value => dispatch(create(value)),
-    update: value => dispatch(update(value)),
+    expenseCreate: value => dispatch(expenseCreate(value)),
+    expenseUpdate: value => dispatch(expenseUpdate(value)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);

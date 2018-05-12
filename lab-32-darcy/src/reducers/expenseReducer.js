@@ -1,10 +1,10 @@
 import uuid from 'uuid';
 
 import {
-  CREATE,
-  UPDATE,
-  REMOVE,
-} from '../actions/actions.jsx';
+  EXPENSE_CREATE,
+  EXPENSE_UPDATE,
+  EXPENSE_REMOVE,
+} from '../actions/expenseAction.js';
 
 const initialState = {
   categories: []
@@ -24,7 +24,7 @@ export default function budgetReducer(state = initialState, action) {
 
   switch (action.type) {
   
-  case CREATE:
+  case EXPENSE_CREATE:
     currentCategories = state.categories.slice();
     
     newCategory = Object.assign({}, {timestamp: Date.now(), id: uuid(), isEditing: false}, action.value);
@@ -32,10 +32,7 @@ export default function budgetReducer(state = initialState, action) {
     currentCategories.push(newCategory);
     return Object.assign(newState, state, {categories: currentCategories});
 
-  case UPDATE:
-    console.log('UPDATE: ACTION (type,value)= ', action);
-    console.log('UPDATE: ACTION.CATEGORY.ID= ', action.category.id);
-
+  case EXPENSE_UPDATE:
     currentCategories = state.categories.map(cat => {
       if (cat.id === action.category.id) {
         return action.category;
@@ -45,7 +42,7 @@ export default function budgetReducer(state = initialState, action) {
     });
     return Object.assign(newState, state, {categories: currentCategories});
 
-  case REMOVE:
+  case EXPENSE_REMOVE:
     currentCategories = state.categories.slice();
     
     catRemove = currentCategories.find(cat => {
