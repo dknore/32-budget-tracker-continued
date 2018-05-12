@@ -1,7 +1,7 @@
 {
   "name": "lab-31-darcy",
   "version": "1.0.0",
-  "description": "",
+  "description": "### Author: Darcy Knore",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -30,5 +30,6 @@
     "webpack": "^4.6.0",
     "webpack-cli": "^2.1.2",
     "webpack-dev-server": "^3.1.4"
-  }
+  },
+  "keywords": []
 }
