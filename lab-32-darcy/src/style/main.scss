@@ -1,0 +1,36 @@
+body {
+  background-color: rgb(237, 248, 248);;
+  font-family: 'Courier New';
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+ul {
+  display: inline-flex;
+}
+
+#add-cat {
+  margin-bottom: 2em;
+}
+
+#budget-item {
+  padding-right: 1em;
+  padding-left: 0;
+}
+
+#budget-list {
+  padding-left: 0;
+}
+
+#update-item {
+  padding-left: 0;
+}
+
+// #cancel-button {
+//   float: right;
+// }
+
+#list-budget {
+  list-style: none;
+  padding-right: 1em;
+}
