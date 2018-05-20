@@ -4,8 +4,8 @@ import {connect} from 'react-redux';
 import Category from './category.jsx';
 
 import {
-  create,
-} from '../actions/actions.jsx';
+  categoryCreate,
+} from '../../actions/categoryAction.js';
 
 class CategoryList extends React.Component {
   constructor(props) {
@@ -17,8 +17,8 @@ class CategoryList extends React.Component {
   displayAll() {
     return this.props.categories.map(category => {
       return <Category 
-        key={category.id} 
-        id={category.id}
+        key={category.catId} 
+        catId={category.catId}
         name={category.name}  
         budget={category.budget}
         isEditing={category.isEditing} />;
@@ -27,7 +27,7 @@ class CategoryList extends React.Component {
 
   render() {
     return (
-      <div id="budget-list">
+      <div id="category-list">
         {this.displayAll()}
       </div>
     );
@@ -35,14 +35,16 @@ class CategoryList extends React.Component {
 }
 
 const mapStateToProps = state => {
+  console.log('state.categories= ', state.categories);
+  console.log('state.categories.categories= ', state.categories.categories);
   return {
-    categories: state.categories
+    categories: state.categories.categories,
   };
 };
 
 const mapDispatchToProps = (dispatch, getState) => {
   return {
-    create: value => dispatch(create(value)),
+    categoryCreate: value => dispatch(categoryCreate(value)),
   };
 };
   

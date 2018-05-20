@@ -15,17 +15,36 @@ ul {
 
 #budget-item {
   padding-right: 1em;
-  padding-left: 0;
+  // padding-left: 0;
 }
 
-#budget-list {
+ol {
+  list-style-type: decimal;
+}
+
+#category-list {
+  padding-top: 2em;
+}
+
+#catList {
+  padding-bottom: 2em;
   padding-left: 0;
+  list-style-type: decimal;
+  display:list-item;
+}
+
+#expense-list {
+  padding-left: 2.5em;
+  list-style-type: disc;
 }
 
 #update-item {
   padding-left: 0;
 }
 
+#remove-button {
+  margin-left: 2.5em;
+}
 // #cancel-button {
 //   float: right;
 // }

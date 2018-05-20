@@ -1,16 +1,27 @@
 import uuid from 'uuid';
 
 import {
-  CREATE,
-  UPDATE,
-  REMOVE,
-} from '../actions/actions.jsx';
+  CATEGORY_CREATE,
+  CATEGORY_UPDATE,
+  CATEGORY_REMOVE,
+} from '../actions/categoryAction.js';
 
 const initialState = {
-  categories: []
+  categories: [
+    {
+      name: 'Food',
+      budget: '50.00',
+      catId: uuid()
+    },
+    {
+      name: 'Gas',
+      budget: '200.00',
+      catId: uuid()
+    }
+  ]
 };
 
-export default function budgetReducer(state = initialState, action) {
+export default function categoryReducer(state = initialState, action) {
   if (state === undefined) {
     return initialState;
   }
@@ -20,24 +31,26 @@ export default function budgetReducer(state = initialState, action) {
   let categoryIndex;
   let newCategory;
   let catRemove;
-  let toUpdate;
 
   switch (action.type) {
   
-  case CREATE:
+  case CATEGORY_CREATE:
     currentCategories = state.categories.slice();
     
-    newCategory = Object.assign({}, {timestamp: Date.now(), id: uuid(), isEditing: false}, action.value);
+    newCategory = Object.assign({},
+      {
+        timestamp: Date.now(), 
+        catId: uuid(), 
+        isEditing: false
+      }, 
+      action.value);
     console.log('newCategory= ', newCategory);
     currentCategories.push(newCategory);
     return Object.assign(newState, state, {categories: currentCategories});
 
-  case UPDATE:
-    console.log('UPDATE: ACTION (type,value)= ', action);
-    console.log('UPDATE: ACTION.CATEGORY.ID= ', action.category.id);
-
+  case CATEGORY_UPDATE:
     currentCategories = state.categories.map(cat => {
-      if (cat.id === action.category.id) {
+      if (cat.catId === action.category.catId) {
         return action.category;
       } else {
         return cat;
@@ -45,11 +58,10 @@ export default function budgetReducer(state = initialState, action) {
     });
     return Object.assign(newState, state, {categories: currentCategories});
 
-  case REMOVE:
+  case CATEGORY_REMOVE:
     currentCategories = state.categories.slice();
-    
     catRemove = currentCategories.find(cat => {
-      return cat.id === action.id;
+      return cat.catId === action.catId;
     });
     categoryIndex = currentCategories.indexOf(catRemove);
     currentCategories.splice(categoryIndex, 1);

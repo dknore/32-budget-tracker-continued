@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
-  create,
-  update,
-} from '../actions/actions.jsx';
+  categoryCreate,
+  categoryUpdate,
+} from '../../actions/categoryAction.js';
 
 class CategoryForm extends React.Component {
   constructor(props) {
@@ -21,18 +21,19 @@ class CategoryForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     if (this.props.mode === 'create') {
-      this.props.create(this.state);
+      this.props.categoryCreate(this.state);
       this.setState({
         name: '',
         budget: '',
       });
     } else if (this.props.mode === 'update') {
       let newValue = Object.assign(this.state, { 
-        isEditing: false, 
         name:this.state.name, 
         budget:this.state.budget, 
-        id:this.props.id});
-      this.props.update(newValue);
+        catId:this.props.catId,
+        isEditing: false, 
+      });
+      this.props.categoryUpdate(newValue);
     }
   }
 
@@ -83,8 +84,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, getState) => {
   return {
-    create: value => dispatch(create(value)),
-    update: value => dispatch(update(value)),
+    categoryCreate: value => dispatch(categoryCreate(value)),
+    categoryUpdate: value => dispatch(categoryUpdate(value)),
   };
 };
 

@@ -2,11 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {
-  update,
-  remove
-} from '../actions/actions.jsx';
+  categoryUpdate,
+  categoryRemove
+} from '../../actions/categoryAction.js';
 
 import CategoryForm from './categoryForm.jsx';
+import ExpenseForm from '../Expense/expenseForm.jsx';
+import ExpenseList from '../Expense/expenseList.jsx';
+import { O_SYMLINK } from 'constants';
 
 class Category extends React.Component {
   constructor(props) {
@@ -17,28 +20,28 @@ class Category extends React.Component {
     this.toggleUpdateOff = this.toggleUpdateOff.bind(this);
   }
 
-  handleRemove(event, id) {
+  handleRemove(event, catId) {
     event.preventDefault();
-    this.props.remove(this.props.id);
+    this.props.categoryRemove(this.props.catId);
   }
 
-  toggleUpdate() {
+  toggleUpdate(event) {
     event.preventDefault();
-    this.props.update({
+    this.props.categoryUpdate({
       name: this.props.name,
       budget: this.props.budget,
-      id: this.props.id,
+      catId: this.props.catId,
       isEditing: true,
     });
   }
 
   toggleUpdateOff() {
     event.preventDefault();
-    this.props.update({
-      isEditing: false,
+    this.props.categoryUpdate({
       name: this.props.name,
       budget: this.props.budget,
-      id: this.props.id,
+      catId: this.props.catId,
+      isEditing: false,
     });
 
   }
@@ -47,8 +50,9 @@ class Category extends React.Component {
     if (this.props.isEditing === true) {
       return ( 
         <div>
-          <CategoryForm id={this.props.id} 
+          <CategoryForm 
             mode="update"
+            catId={this.props.catId} 
             name={this.props.name} 
             budget={this.props.budget} />
           <button id="cancel-button" onClick={this.toggleUpdateOff}> Cancel </button>
@@ -56,19 +60,29 @@ class Category extends React.Component {
       );
     }
     return (
-      <li>
-        {this.props.name}: ${this.props.budget}
-        <button onClick={this.handleRemove}> Remove </button>
+      <ol id="catList">
+        {this.props.name}<span>:</span> ${this.props.budget}
+        <button id="remove-button" onClick={this.handleRemove}> Remove </button>
         <button onClick={this.toggleUpdate}> Update </button>
-      </li>
+        <ExpenseForm 
+          mode="create" 
+          // mode="update"
+          expId={this.props.expId}
+          catId={this.props.catId} 
+          item={this.props.item} 
+          price={this.props.price}/>
+        <ExpenseList 
+          catId={this.props.catId}
+          expId={this.props.expId} />
+      </ol>
     );
   }
 }
 
 const mapDispatchToProps = (dispatch, getState) => {
   return {
-    update: (category) => dispatch(update(category)),
-    remove: (id) => dispatch(remove(id)),
+    categoryUpdate: (category) => dispatch(categoryUpdate(category)),
+    categoryRemove: (catId) => dispatch(categoryRemove(catId)),
   };
 };
 
