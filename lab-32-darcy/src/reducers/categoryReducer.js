@@ -7,7 +7,18 @@ import {
 } from '../actions/categoryAction.js';
 
 const initialState = {
-  categories: []
+  categories: [
+    {
+      name: 'Food',
+      budget: '50.00',
+      catId: uuid()
+    },
+    {
+      name: 'Gas',
+      budget: '200.00',
+      catId: uuid()
+    }
+  ]
 };
 
 export default function categoryReducer(state = initialState, action) {
@@ -20,21 +31,26 @@ export default function categoryReducer(state = initialState, action) {
   let categoryIndex;
   let newCategory;
   let catRemove;
-  let toUpdate;
 
   switch (action.type) {
   
   case CATEGORY_CREATE:
     currentCategories = state.categories.slice();
     
-    newCategory = Object.assign({}, {timestamp: Date.now(), id: uuid(), isEditing: false}, action.value);
+    newCategory = Object.assign({},
+      {
+        timestamp: Date.now(), 
+        catId: uuid(), 
+        isEditing: false
+      }, 
+      action.value);
     console.log('newCategory= ', newCategory);
     currentCategories.push(newCategory);
     return Object.assign(newState, state, {categories: currentCategories});
 
   case CATEGORY_UPDATE:
     currentCategories = state.categories.map(cat => {
-      if (cat.id === action.category.id) {
+      if (cat.catId === action.category.catId) {
         return action.category;
       } else {
         return cat;
@@ -44,9 +60,8 @@ export default function categoryReducer(state = initialState, action) {
 
   case CATEGORY_REMOVE:
     currentCategories = state.categories.slice();
-    
     catRemove = currentCategories.find(cat => {
-      return cat.id === action.id;
+      return cat.catId === action.catId;
     });
     categoryIndex = currentCategories.indexOf(catRemove);
     currentCategories.splice(categoryIndex, 1);

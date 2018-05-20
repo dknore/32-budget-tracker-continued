@@ -15,19 +15,21 @@ class ExpenseList extends React.Component {
   }
 
   displayAll() {
-    return this.props.categories.map(category => {
-      return <Expense 
-        key={category.id} 
-        id={category.id}
-        name={category.name}  
-        budget={category.budget}
-        isEditing={category.isEditing} />;
+    return this.props.expenses.map(expense => {
+      if(this.props.catId === expense.catId)
+        return <Expense 
+          key={expense.expId} 
+          expId={expense.expId}
+          catId={expense.catId}
+          item={expense.item}  
+          price={expense.price}
+          isEditing={expense.isEditing} />;
     });
   }
 
   render() {
     return (
-      <div id="budget-list">
+      <div id="expense-list">
         {this.displayAll()}
       </div>
     );
@@ -36,7 +38,7 @@ class ExpenseList extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    categories: state.categories
+    expenses: state.expenses.expenses,
   };
 };
 

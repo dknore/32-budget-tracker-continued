@@ -10,42 +10,48 @@ class ExpenseForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      budget: '',
+      item: '',
+      price: '',
+      catId: this.props.catId,
+      timestamp: Date.now(),
+      // isEditing: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleBudgetChange = this.handleBudgetChange.bind(this);
+    this.handleItemChange = this.handleItemChange.bind(this);
+    this.handlePriceChange = this.handlePriceChange.bind(this);
   }
 
   handleSubmit(event) {
     event.preventDefault();
+    console.log('this.props.mode= ', this.props.mode);
     if (this.props.mode === 'create') {
       this.props.expenseCreate(this.state);
       this.setState({
-        name: '',
-        budget: '',
+        item: '',
+        price: '',
       });
     } else if (this.props.mode === 'update') {
       let newValue = Object.assign(this.state, { 
+        item: this.state.item, 
+        price: this.state.price,
+        expId: this.props.expId,
+        catId: this.props.catId,
         isEditing: false, 
-        name:this.state.name, 
-        budget:this.state.budget, 
-        id:this.props.id});
+      });
       this.props.expenseUpdate(newValue);
     }
   }
 
-  handleNameChange(event) {
+  handleItemChange(event) {
     let newState = {
-      name: event.target.value
+      item: event.target.value
     };
     this.setState(newState);
   }
 
-  handleBudgetChange(event) {
+  handlePriceChange(event) {
     let newState = {
-      budget: event.target.value
+      price: event.target.value
     };
     this.setState(newState);
   }
@@ -53,31 +59,31 @@ class ExpenseForm extends React.Component {
   render() {
     return <form id="add-cat" onSubmit={this.handleSubmit}>
       <input
-        onChange={this.handleNameChange}
-        name="name"
+        onChange={this.handleItemChange}
+        name="item"
         type="text"
-        placeholder="Category"
+        placeholder="Item"
         required="true"
-        value={this.state.name}
+        value={this.state.item}
       />
 
       <input
-        onChange={this.handleBudgetChange}
-        name="budget"
+        onChange={this.handlePriceChange}
+        name="price"
         type="text"
-        placeholder="Budget"
+        placeholder="Price"
         required="true"
-        value={this.state.budget}
+        value={this.state.price}
       />
 
-      <button type="submit"> Add Category </button>
+      <button type="submit"> Add Expense </button>
     </form>;
   }
 }
 
 const mapStateToProps = state => {
   return {
-    categories: state.categories
+    expenses: state.expenses
   };
 };
 

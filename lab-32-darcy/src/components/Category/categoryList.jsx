@@ -17,8 +17,8 @@ class CategoryList extends React.Component {
   displayAll() {
     return this.props.categories.map(category => {
       return <Category 
-        key={category.id} 
-        id={category.id}
+        key={category.catId} 
+        catId={category.catId}
         name={category.name}  
         budget={category.budget}
         isEditing={category.isEditing} />;
@@ -27,7 +27,7 @@ class CategoryList extends React.Component {
 
   render() {
     return (
-      <div id="budget-list">
+      <div id="category-list">
         {this.displayAll()}
       </div>
     );
@@ -35,8 +35,10 @@ class CategoryList extends React.Component {
 }
 
 const mapStateToProps = state => {
+  console.log('state.categories= ', state.categories);
+  console.log('state.categories.categories= ', state.categories.categories);
   return {
-    categories: state.categories
+    categories: state.categories.categories,
   };
 };
 

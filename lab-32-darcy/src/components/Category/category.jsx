@@ -7,6 +7,9 @@ import {
 } from '../../actions/categoryAction.js';
 
 import CategoryForm from './categoryForm.jsx';
+import ExpenseForm from '../Expense/expenseForm.jsx';
+import ExpenseList from '../Expense/expenseList.jsx';
+import { O_SYMLINK } from 'constants';
 
 class Category extends React.Component {
   constructor(props) {
@@ -17,17 +20,17 @@ class Category extends React.Component {
     this.toggleUpdateOff = this.toggleUpdateOff.bind(this);
   }
 
-  handleRemove(event, id) {
+  handleRemove(event, catId) {
     event.preventDefault();
-    this.props.categoryRemove(this.props.id);
+    this.props.categoryRemove(this.props.catId);
   }
 
-  toggleUpdate() {
+  toggleUpdate(event) {
     event.preventDefault();
     this.props.categoryUpdate({
       name: this.props.name,
       budget: this.props.budget,
-      id: this.props.id,
+      catId: this.props.catId,
       isEditing: true,
     });
   }
@@ -37,7 +40,7 @@ class Category extends React.Component {
     this.props.categoryUpdate({
       name: this.props.name,
       budget: this.props.budget,
-      id: this.props.id,
+      catId: this.props.catId,
       isEditing: false,
     });
 
@@ -47,8 +50,9 @@ class Category extends React.Component {
     if (this.props.isEditing === true) {
       return ( 
         <div>
-          <CategoryForm id={this.props.id} 
+          <CategoryForm 
             mode="update"
+            catId={this.props.catId} 
             name={this.props.name} 
             budget={this.props.budget} />
           <button id="cancel-button" onClick={this.toggleUpdateOff}> Cancel </button>
@@ -56,11 +60,21 @@ class Category extends React.Component {
       );
     }
     return (
-      <li>
-        {this.props.name}: ${this.props.budget}
-        <button onClick={this.handleRemove}> Remove </button>
+      <ol id="catList">
+        {this.props.name}<span>:</span> ${this.props.budget}
+        <button id="remove-button" onClick={this.handleRemove}> Remove </button>
         <button onClick={this.toggleUpdate}> Update </button>
-      </li>
+        <ExpenseForm 
+          mode="create" 
+          // mode="update"
+          expId={this.props.expId}
+          catId={this.props.catId} 
+          item={this.props.item} 
+          price={this.props.price}/>
+        <ExpenseList 
+          catId={this.props.catId}
+          expId={this.props.expId} />
+      </ol>
     );
   }
 }
@@ -68,7 +82,7 @@ class Category extends React.Component {
 const mapDispatchToProps = (dispatch, getState) => {
   return {
     categoryUpdate: (category) => dispatch(categoryUpdate(category)),
-    categoryRemove: (id) => dispatch(categoryRemove(id)),
+    categoryRemove: (catId) => dispatch(categoryRemove(catId)),
   };
 };
 

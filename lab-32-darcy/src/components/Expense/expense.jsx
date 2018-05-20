@@ -2,8 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {
-  update,
-  remove
+  expenseUpdate,
+  expenseRemove
 } from '../../actions/expenseAction.js';
 
 import ExpenseForm from './expenseForm.jsx';
@@ -17,48 +17,53 @@ class Expense extends React.Component {
     this.toggleUpdateOff = this.toggleUpdateOff.bind(this);
   }
 
-  handleRemove(event, id) {
+  handleRemove(event, expId) {
     event.preventDefault();
-    this.props.expenseRemove(this.props.id);
+    this.props.expenseRemove(this.props.expId);
   }
 
-  toggleUpdate() {
+  toggleUpdate(event) {
     event.preventDefault();
+    console.log('EXPENSE  event=', event);
     this.props.expenseUpdate({
-      name: this.props.name,
-      budget: this.props.budget,
-      id: this.props.id,
+      item: this.props.item,
+      price: this.props.price,
+      expId: this.props.expId,
+      catId: this.props.catId,
       isEditing: true,
     });
   }
 
-  toggleUpdateOff() {
+  toggleUpdateOff(event) {
     event.preventDefault();
     this.props.expenseUpdate({
+      item: this.props.item,
+      price: this.props.price,
+      expId: this.props.expId,
       isEditing: false,
-      name: this.props.name,
-      budget: this.props.budget,
-      id: this.props.id,
     });
 
   }
 
   render() {
+    console.log('this.props.isEditing= ',this.props.isEditing);
     if (this.props.isEditing === true) {
       return ( 
         <div>
-          <ExpenseForm id={this.props.id} 
+          <ExpenseForm 
+            expId={this.props.expId} 
+            catId={this.props.catId}
             mode="update"
-            name={this.props.name} 
-            budget={this.props.budget} />
+            item={this.props.item} 
+            price={this.props.price} />
           <button id="cancel-button" onClick={this.toggleUpdateOff}> Cancel </button>
         </div>
       );
     }
     return (
       <li>
-        {this.props.name}: ${this.props.budget}
-        <button onClick={this.handleRemove}> Remove </button>
+        {this.props.item}: ${this.props.price}
+        <button id="remove-button" onClick={this.handleRemove}> Remove </button>
         <button onClick={this.toggleUpdate}> Update </button>
       </li>
     );
@@ -67,7 +72,7 @@ class Expense extends React.Component {
 
 const mapDispatchToProps = (dispatch, getState) => {
   return {
-    expenseUpdate: (category) => dispatch(expenseUpdate(category)),
+    expenseUpdate: (expense) => dispatch(expenseUpdate(expense)),
     expenseRemove: (id) => dispatch(expenseRemove(id)),
   };
 };

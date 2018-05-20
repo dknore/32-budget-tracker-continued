@@ -7,50 +7,57 @@ import {
 } from '../actions/expenseAction.js';
 
 const initialState = {
-  categories: []
+  expenses: []
 };
 
-export default function budgetReducer(state = initialState, action) {
+export default function expenseReducer(state = initialState, action) {
   if (state === undefined) {
     return initialState;
   }
 
   let newState = {};
-  let currentCategories;
-  let categoryIndex;
-  let newCategory;
-  let catRemove;
-  let toUpdate;
+  let currentExpenses;
+  let expenseIndex;
+  let newExpense;
+  let expRemove;
 
   switch (action.type) {
   
   case EXPENSE_CREATE:
-    currentCategories = state.categories.slice();
-    
-    newCategory = Object.assign({}, {timestamp: Date.now(), id: uuid(), isEditing: false}, action.value);
-    console.log('newCategory= ', newCategory);
-    currentCategories.push(newCategory);
-    return Object.assign(newState, state, {categories: currentCategories});
+    currentExpenses = state.expenses.slice();
+    newExpense = Object.assign({}, 
+      {
+        timestamp: Date.now(), 
+        expId: uuid(), 
+        isEditing: false
+      }, 
+      action.value);
+    console.log('newExpense= ', newExpense);
+    currentExpenses.push(newExpense);
+    return Object.assign(newState, state, {expenses: currentExpenses});
 
   case EXPENSE_UPDATE:
-    currentCategories = state.categories.map(cat => {
-      if (cat.id === action.category.id) {
-        return action.category;
+  console.log('EXPENSE_UPDATE action= ', action);
+    currentExpenses = state.expenses.map(exp => {
+      console.log('EXPENSE_UPDATE exp.expId= ', exp.expId);
+      if (exp.expId === action.expense.expId) {
+        return action.expense;
       } else {
-        return cat;
+        return exp;
       }
     });
-    return Object.assign(newState, state, {categories: currentCategories});
+    console.log('currentExpenses= ', currentExpenses);
+    
+    return Object.assign(newState, state, {expenses: currentExpenses});
 
   case EXPENSE_REMOVE:
-    currentCategories = state.categories.slice();
-    
-    catRemove = currentCategories.find(cat => {
-      return cat.id === action.id;
+    currentExpenses = state.expenses.slice();
+    expRemove = currentExpenses.find(exp => {
+      return exp.expId === action.expId;
     });
-    categoryIndex = currentCategories.indexOf(catRemove);
-    currentCategories.splice(categoryIndex, 1);
-    return Object.assign(newState, state, {categories: currentCategories});
+    expenseIndex = currentExpenses.indexOf(expRemove);
+    currentExpenses.splice(expenseIndex, 1);
+    return Object.assign(newState, state, {expenses: currentExpenses});
   
   default: return state;
   }
