@@ -27,12 +27,13 @@ class CategoryForm extends React.Component {
         budget: '',
       });
     } else if (this.props.mode === 'update') {
-      let newValue = Object.assign(this.state, { 
-        name:this.state.name, 
-        budget:this.state.budget, 
-        catId:this.props.catId,
-        isEditing: false, 
-      });
+      let newValue = Object.assign(this.state, 
+        { 
+          name:this.state.name, 
+          budget:this.state.budget, 
+          catId:this.props.catId,
+          isEditing: false, 
+        });
       this.props.categoryUpdate(newValue);
     }
   }
